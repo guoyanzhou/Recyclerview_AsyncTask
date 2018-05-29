@@ -18,6 +18,16 @@ import java.util.List;
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
     Context context;
     List<FeedItem> feedItemList;
+    OnItemClickListner onItemClickListner;
+
+    public interface OnItemClickListner {
+        void onItemClick(View view, int position);
+        void onItemLongClick(View view, int position);
+    }
+
+    public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
+        this.onItemClickListner = onItemClickListner;
+    }
 
     public MyRecyclerViewAdapter(Context context, List<FeedItem> feedItemList) {
         this.context = context;
@@ -31,8 +41,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return viewHolder;
     }
 
+    public void removeData(int pos) {
+        feedItemList.remove(pos);
+        notifyItemRemoved(pos);
+    }
+
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         FeedItem feedItem = feedItemList.get(i);
 
 //        if (!TextUtils.isEmpty(feedItem.getThumbnail())) {
@@ -42,6 +57,23 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 //                    .into(viewHolder.imageView);
 //        }
         viewHolder.textView.setText(Html.fromHtml(feedItem.getTitle()));
+        if (onItemClickListner != null) {
+            viewHolder.textView.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = viewHolder.getLayoutPosition();
+                    onItemClickListner.onItemClick(viewHolder.textView, pos);
+                }
+            });
+            viewHolder.textView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int pos = viewHolder.getLayoutPosition();
+                    onItemClickListner.onItemLongClick(viewHolder.textView, pos);
+                    return false;
+                }
+            });
+        }
     }
 
     @Override
