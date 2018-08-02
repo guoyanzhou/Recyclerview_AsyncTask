@@ -30,9 +30,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         this.onItemClickListner = onItemClickListner;
     }
 
-    public MyRecyclerViewAdapter(Context context, List<FeedItem> feedItems) {
+    public MyRecyclerViewAdapter(Context context, List<JsonItem> JsonItem) {
         this.context = context;
-        this.feedItemList = feedItems;
+        this.jsonItemList = JsonItem;
     }
 
     @Override
@@ -50,23 +50,23 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
-        FeedItem feedItem = feedItemList.get(i);
-//        JsonItem jsonItem = jsonItemList.get(i);
+//        FeedItem feedItem = feedItemList.get(i);
+        JsonItem jsonItem = jsonItemList.get(i);
         // Render image using Picasso library
-        if(!TextUtils.isEmpty(feedItem.getThumbnail())) {
-            Picasso.with(context).load(feedItem.getThumbnail())
-                    .error(R.drawable.placeholder)
-                    .placeholder(R.drawable.placeholder)
-                    .into(viewHolder.imageView);
-        }
-//        if (!TextUtils.isEmpty(feedItem.getThumbnail())) {
+//        if(!TextUtils.isEmpty(feedItem.getThumbnail())) {
 //            Picasso.with(context).load(feedItem.getThumbnail())
 //                    .error(R.drawable.placeholder)
 //                    .placeholder(R.drawable.placeholder)
 //                    .into(viewHolder.imageView);
 //        }
-        viewHolder.textView.setText(Html.fromHtml(feedItem.getTitle()));
-//        viewHolder.textView.setText(Html.fromHtml(jsonItem.getX() + "-" + jsonItem.getY() ));
+//        if (!TextUtils.isEmpty(jsonItem.getThumbnail())) {
+//            Picasso.with(context).load(jsonItem.getThumbnail())
+//                    .error(R.drawable.placeholder)
+//                    .placeholder(R.drawable.placeholder)
+//                    .into(viewHolder.imageView);
+//        }
+//        viewHolder.textView.setText(Html.fromHtml(feedItem.getTitle()));
+        viewHolder.textView.setText(Html.fromHtml(jsonItem.getX() + "-" + jsonItem.getY() ));
 
         if (onItemClickListner != null) {
             viewHolder.textView.setOnClickListener( new View.OnClickListener() {
@@ -89,8 +89,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public int getItemCount() {
-        return (null != feedItemList ? feedItemList.size() : 0);
-//        return null != jsonItemList ? jsonItemList.size() : 0;
+//        return (null != feedItemList ? feedItemList.size() : 0);
+        return null != jsonItemList ? jsonItemList.size() : 0;
 
     }
 

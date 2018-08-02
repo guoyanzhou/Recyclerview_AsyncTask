@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity  {
             progressBar.setVisibility(View.GONE);
 
             if (result == 1) {
-                myRecyclerViewAdapter = new MyRecyclerViewAdapter(MainActivity.this, feedItemList);
+                myRecyclerViewAdapter = new MyRecyclerViewAdapter(MainActivity.this, jsonItems);
                 recyclerView.setAdapter(myRecyclerViewAdapter);
                 updateUI();
             } else {
@@ -115,10 +115,10 @@ public class MainActivity extends AppCompatActivity  {
 
     private void updateUI() {
 //        updateFeedItem();
-//        getCordinate();
+        getCordinate();
 //        myRecyclerViewAdapter = new MyRecyclerViewAdapter(this, feedItemList);
-//        myRecyclerViewAdapter = new MyRecyclerViewAdapter(this, jsonItems);
-//        recyclerView.setAdapter(myRecyclerViewAdapter);
+        myRecyclerViewAdapter = new MyRecyclerViewAdapter(this, jsonItems);
+        recyclerView.setAdapter(myRecyclerViewAdapter);
         myRecyclerViewAdapter.setOnItemClickListner(new MyRecyclerViewAdapter.OnItemClickListner() {
             @Override
             public void onItemClick(View view, int position) {
